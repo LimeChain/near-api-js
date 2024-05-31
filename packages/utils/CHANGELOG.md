@@ -1,5 +1,12 @@
 # @near-js/utils
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`92a6f5b`](https://github.com/near/near-api-js/commit/92a6f5be3f4b7be6f3e9b55077025921c3aad2cb)]:
+  - @near-js/types@0.2.1
+
 ## 0.2.1
 
 ### Patch Changes

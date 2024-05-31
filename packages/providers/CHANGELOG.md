@@ -1,5 +1,16 @@
 # @near-js/providers
 
+## 0.2.2
+
+### Patch Changes
+
+- [#1347](https://github.com/near/near-api-js/pull/1347) [`92a6f5b`](https://github.com/near/near-api-js/commit/92a6f5be3f4b7be6f3e9b55077025921c3aad2cb) Thanks [@gtsonevv](https://github.com/gtsonevv)! - Update tx execution status default value.
+
+- Updated dependencies [[`92a6f5b`](https://github.com/near/near-api-js/commit/92a6f5be3f4b7be6f3e9b55077025921c3aad2cb)]:
+  - @near-js/types@0.2.1
+  - @near-js/transactions@1.2.2
+  - @near-js/utils@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
