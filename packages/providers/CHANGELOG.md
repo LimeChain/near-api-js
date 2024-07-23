@@ -1,5 +1,12 @@
 # @near-js/providers
 
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [[`7d5a824`](https://github.com/near/near-api-js/commit/7d5a8244a1683d7b5e82c4da1e40d834167a9a41)]:
+  - @near-js/transactions@1.2.3
+
 ## 0.2.2
 
 ### Patch Changes
