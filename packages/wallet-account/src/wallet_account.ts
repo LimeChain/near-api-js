@@ -561,35 +561,15 @@ export class ConnectedWalletAccount extends Account {
             throw new Error(`Cannot find matching key for transaction sent to ${signedTx.transaction.receiverId}`);
         }
 
-        if (localKey && localKey.toString() === accessKey.public_key) {
-            try {
-                return await super.sendTransaction(hash, signedTx);
-            } catch (e) {
-                if (e.type === 'NotEnoughAllowance') {
-                    accessKey = await this.accessKeyForTransaction(signedTx.transaction.receiverId, signedTx.transaction.actions);
-                } else {
-                    throw e;
-                }
+        try {
+            return await super.sendTransaction(hash, signedTx);
+        } catch (e) {
+            if (e.type === 'NotEnoughAllowance') {
+                accessKey = await this.accessKeyForTransaction(signedTx.transaction.receiverId, signedTx.transaction.actions);
+            } else {
+                throw e;
             }
         }
-
-        const block = await this.connection.provider.block({ finality: 'final' });
-        const blockHash = baseDecode(block.header.hash);
-        const publicKey = PublicKey.from(accessKey.public_key);
-        const nonce = Number(accessKey.access_key.nonce) + 1;
-        const transaction = createTransaction(this.accountId, publicKey, signedTx.transaction.receiverId, nonce, signedTx.transaction.actions, blockHash);
-        
-        this.walletConnection.requestSignTransactions({
-            transactions: [transaction],
-            meta: walletMeta,
-            callbackUrl: walletCallbackUrl
-        });
-
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                reject(new Error('Failed to redirect to sign transaction'));
-            }, 1000);
-        });
     }
 
     /**
@@ -610,34 +590,14 @@ export class ConnectedWalletAccount extends Account {
             throw new Error(`Cannot find matching key for transaction sent to ${receiverId}`);
         }
 
-        if (localKey && localKey.toString() === accessKey.public_key) {
-            try {
-                return await super.signedDelegate({ actions, blockHeightTtl, receiverId });
-            } catch (e) {
-                if (e.type === 'NotEnoughAllowance') {
-                    accessKey = await this.accessKeyForTransaction(receiverId, actions);
-                } else {
-                    throw e;
-                }
+        try {
+            return await super.signedDelegate({ actions, blockHeightTtl, receiverId });
+        } catch (e) {
+            if (e.type === 'NotEnoughAllowance') {
+                accessKey = await this.accessKeyForTransaction(receiverId, actions);
+            } else {
+                throw e;
             }
         }
-
-        const block = await this.connection.provider.block({ finality: 'final' });
-        const blockHash = baseDecode(block.header.hash);
-        const publicKey = PublicKey.from(accessKey.public_key);
-        const nonce = Number(accessKey.access_key.nonce) + 1;
-        const transaction = createTransaction(this.accountId, publicKey, receiverId, nonce, actions, blockHash);
-
-        this.walletConnection.requestSignTransactions({
-            transactions: [transaction],
-            meta: walletMeta,
-            callbackUrl: walletCallbackUrl
-        });
-
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                reject(new Error('Failed to redirect to sign delegate action'));
-            }, 1000);
-        });
     }
 }
